@@ -192,164 +192,6 @@
             border-radius: 8px;
         }
 
-        /* SUBSCRIPTION FORM STYLES */
-        .subscription-form {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: var(--radius);
-            max-width: 500px;
-            width: 90%;
-            z-index: 10000;
-            border: 3px solid var(--accent-purple);
-            box-shadow: 0 0 50px rgba(145, 70, 255, 0.3);
-        }
-
-        .subscription-form.active {
-            display: block;
-            animation: popIn 0.5s ease;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 14px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 10px rgba(145, 70, 255, 0.3);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .form-submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 10px;
-        }
-
-        .form-submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(145, 70, 255, 0.3);
-        }
-
-        .form-close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: var(--text-secondary);
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .form-title {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2rem;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .plan-selector {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .plan-option {
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .plan-option:hover {
-            border-color: var(--accent-purple);
-            background: rgba(145, 70, 255, 0.1);
-        }
-
-        .plan-option.selected {
-            border-color: var(--accent-pink);
-            background: rgba(255, 45, 149, 0.1);
-        }
-
-        .plan-price {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin: 10px 0;
-            color: var(--accent-gold);
-        }
-
-        .plan-name {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .form-success {
-            display: none;
-            text-align: center;
-            padding: 40px;
-        }
-
-        .form-success i {
-            font-size: 4rem;
-            color: #4CAF50;
-            margin-bottom: 20px;
-        }
-
-        .form-success h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: var(--text-primary);
-        }
-
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -783,21 +625,12 @@
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
 
-            .forced-subscription-modal,
-            .subscription-form {
+            .forced-subscription-modal {
                 padding: 25px;
             }
 
             .modal-header h2 {
                 font-size: 2rem;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .plan-selector {
-                grid-template-columns: 1fr;
             }
         }
 
@@ -822,101 +655,6 @@
     <!-- Blur Overlay -->
     <div class="blur-overlay" id="blurOverlay"></div>
 
-    <!-- Subscription Form -->
-    <div class="subscription-form" id="subscriptionForm">
-        <button class="form-close-btn" id="formCloseBtn">×</button>
-        
-        <h2 class="form-title">Subscribe to VibeVerse</h2>
-        
-        <form id="paymentForm" action="https://formspree.io/f/mgvybdvz" method="POST">
-            <input type="hidden" name="plan" id="selectedPlan" value="premium">
-            <input type="hidden" name="source" value="vibeverse_website">
-            
-            <div class="form-group">
-                <label class="form-label">Select Plan</label>
-                <div class="plan-selector">
-                    <div class="plan-option" data-plan="basic" data-price="$9.99">
-                        <div class="plan-name">Basic</div>
-                        <div class="plan-price">$9.99</div>
-                        <small style="color: var(--text-secondary);">Monthly</small>
-                    </div>
-                    <div class="plan-option selected" data-plan="premium" data-price="$24.99">
-                        <div class="plan-name">Premium</div>
-                        <div class="plan-price">$24.99</div>
-                        <small style="color: var(--text-secondary);">Monthly</small>
-                    </div>
-                    <div class="plan-option" data-plan="vip" data-price="$49.99">
-                        <div class="plan-name">VIP</div>
-                        <div class="plan-price">$49.99</div>
-                        <small style="color: var(--text-secondary);">Monthly</small>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="email" class="form-label">Email Address *</label>
-                <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="firstName" class="form-label">First Name *</label>
-                    <input type="text" id="firstName" name="first_name" class="form-input" placeholder="John" required>
-                </div>
-                <div class="form-group">
-                    <label for="lastName" class="form-label">Last Name *</label>
-                    <input type="text" id="lastName" name="last_name" class="form-input" placeholder="Doe" required>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="cardNumber" class="form-label">Card Number *</label>
-                <input type="text" id="cardNumber" name="card_number" class="form-input" placeholder="4242 4242 4242 4242" required maxlength="19">
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="expiry" class="form-label">Expiry Date *</label>
-                    <input type="text" id="expiry" name="expiry_date" class="form-input" placeholder="MM/YY" required maxlength="5">
-                </div>
-                <div class="form-group">
-                    <label for="cvc" class="form-label">CVC *</label>
-                    <input type="text" id="cvc" name="cvc" class="form-input" placeholder="123" required maxlength="4">
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="country" class="form-label">Country *</label>
-                <input type="text" id="country" name="country" class="form-input" placeholder="United States" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="zipCode" class="form-label">ZIP/Postal Code *</label>
-                <input type="text" id="zipCode" name="zip_code" class="form-input" placeholder="10001" required>
-            </div>
-            
-            <button type="submit" class="form-submit-btn">
-                <i class="fas fa-lock"></i> SUBSCRIBE NOW
-            </button>
-            
-            <p style="text-align: center; color: var(--text-secondary); margin-top: 15px; font-size: 0.8rem;">
-                By subscribing, you agree to our Terms of Service and Privacy Policy
-            </p>
-        </form>
-        
-        <!-- Success Message -->
-        <div class="form-success" id="formSuccess">
-            <i class="fas fa-check-circle"></i>
-            <h3>Subscription Successful!</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 20px;">
-                Thank you for subscribing to VibeVerse. Your account is being activated...
-            </p>
-            <button class="form-submit-btn" id="continueToContent">
-                <i class="fas fa-unlock"></i> ACCESS CONTENT
-            </button>
-        </div>
-    </div>
-
     <!-- Forced Subscription Modal -->
     <div class="forced-subscription-modal" id="forcedSubscriptionModal">
         <div class="close-btn" title="Subscription required to close"></div>
@@ -933,7 +671,7 @@
                 <div>
                     <strong>Exclusive Videos</strong>
                     <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
-                        Unlock premium videos from top creators
+                        Unlock premium videos from your favourite pornstars ⭐
                     </p>
                 </div>
             </div>
@@ -943,7 +681,7 @@
                 <div>
                     <strong>Private Photos</strong>
                     <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
-                        Access exclusive photo collections
+                        Access exclusive photo collections 
                     </p>
                 </div>
             </div>
@@ -1246,164 +984,56 @@
             }, 1000);
         });
 
-        // Elements
+        // Forced subscription modal elements
         const blurOverlay = document.getElementById('blurOverlay');
         const forcedModal = document.getElementById('forcedSubscriptionModal');
-        const subscriptionForm = document.getElementById('subscriptionForm');
         const forcedSubscribeBtn = document.getElementById('forcedSubscribeBtn');
+        const closeBtn = document.querySelector('.close-btn');
         const subscribeNavBtn = document.getElementById('subscribeNavBtn');
         const ctaSubscribeBtn = document.getElementById('ctaSubscribeBtn');
-        const formCloseBtn = document.getElementById('formCloseBtn');
-        const paymentForm = document.getElementById('paymentForm');
-        const formSuccess = document.getElementById('formSuccess');
-        const continueToContentBtn = document.getElementById('continueToContent');
-        const closeBtn = document.querySelector('.close-btn');
-        const planOptions = document.querySelectorAll('.plan-option');
-        const selectedPlanInput = document.getElementById('selectedPlan');
 
         // Show forced subscription modal
         function showForcedSubscription() {
             blurOverlay.classList.add('active');
             forcedModal.classList.add('active');
+            
+            // Disable scrolling
             document.body.style.overflow = 'hidden';
+            
+            // Prevent any clicks on background
+            blurOverlay.style.pointerEvents = 'auto';
         }
 
-        // Show subscription form
-        function showSubscriptionForm() {
-            forcedModal.classList.remove('active');
-            subscriptionForm.classList.add('active');
+        // Handle subscription button click - Redirect to subscribe.html
+        function handleSubscribeClick() {
+            // Redirect to subscription page
+            window.location.href = 'subscribe.html';
         }
 
-        // Hide subscription form
-        function hideSubscriptionForm() {
-            subscriptionForm.classList.remove('active');
-            blurOverlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
+        // Add event listeners to all subscribe buttons
+        if (forcedSubscribeBtn) {
+            forcedSubscribeBtn.addEventListener('click', handleSubscribeClick);
         }
-
-        // Handle plan selection
-        planOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                planOptions.forEach(opt => opt.classList.remove('selected'));
-                option.classList.add('selected');
-                selectedPlanInput.value = option.dataset.plan;
+        
+        if (subscribeNavBtn) {
+            subscribeNavBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                handleSubscribeClick();
             });
-        });
-
-        // Handle form submission
-        paymentForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // Validate card number (simple Luhn check)
-            const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
-            if (!isValidCardNumber(cardNumber)) {
-                alert('Please enter a valid card number');
-                return;
-            }
-            
-            // Validate expiry date
-            const expiry = document.getElementById('expiry').value;
-            if (!isValidExpiry(expiry)) {
-                alert('Please enter a valid expiry date (MM/YY)');
-                return;
-            }
-            
-            // Validate CVC
-            const cvc = document.getElementById('cvc').value;
-            if (!isValidCVC(cvc)) {
-                alert('Please enter a valid CVC (3-4 digits)');
-                return;
-            }
-            
-            // Show loading state
-            const submitBtn = paymentForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESSING...';
-            submitBtn.disabled = true;
-            
-            try {
-                // Submit to Formspree
-                const formData = new FormData(paymentForm);
-                const response = await fetch(paymentForm.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-                
-                if (response.ok) {
-                    // Show success message
-                    paymentForm.style.display = 'none';
-                    formSuccess.style.display = 'block';
-                    
-                    // Store subscription status in localStorage
-                    localStorage.setItem('vibeverse_subscribed', 'true');
-                    localStorage.setItem('vibeverse_subscription_date', new Date().toISOString());
-                    localStorage.setItem('vibeverse_plan', selectedPlanInput.value);
-                    
-                    // Simulate processing
-                    setTimeout(() => {
-                        // Redirect to content page or unlock content
-                        window.location.href = 'content.html';
-                    }, 3000);
-                } else {
-                    throw new Error('Form submission failed');
-                }
-            } catch (error) {
-                alert('Subscription failed. Please try again.');
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }
-        });
-
-        // Validation functions
-        function isValidCardNumber(number) {
-            // Simple validation for demo purposes
-            return /^\d{16}$/.test(number) || /^\d{4} \d{4} \d{4} \d{4}$/.test(number);
+        }
+        
+        if (ctaSubscribeBtn) {
+            ctaSubscribeBtn.addEventListener('click', handleSubscribeClick);
         }
 
-        function isValidExpiry(expiry) {
-            return /^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry);
+        // Disable close button functionality
+        if (closeBtn) {
+            closeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Show message that subscription is required
+                alert('You must subscribe to access VibeVerse content.');
+            });
         }
-
-        function isValidCVC(cvc) {
-            return /^\d{3,4}$/.test(cvc);
-        }
-
-        // Format card number input
-        document.getElementById('cardNumber').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\s/g, '').replace(/\D/g, '');
-            if (value.length > 16) value = value.substring(0, 16);
-            e.target.value = value.replace(/(\d{4})/g, '$1 ').trim();
-        });
-
-        // Format expiry date input
-        document.getElementById('expiry').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length >= 2) {
-                value = value.substring(0, 2) + '/' + value.substring(2, 4);
-            }
-            e.target.value = value;
-        });
-
-        // Event Listeners
-        forcedSubscribeBtn.addEventListener('click', showSubscriptionForm);
-        subscribeNavBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            showSubscriptionForm();
-        });
-        ctaSubscribeBtn.addEventListener('click', showSubscriptionForm);
-        formCloseBtn.addEventListener('click', hideSubscriptionForm);
-        continueToContentBtn.addEventListener('click', () => {
-            window.location.href = 'content.html';
-        });
-
-        // Close button in forced modal
-        closeBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('You must subscribe to access VibeVerse content.');
-        });
 
         // Prevent any interaction with locked content
         document.querySelectorAll('.creator-card, .content-item, .feature-card, .pricing-card').forEach(element => {
@@ -1411,10 +1041,12 @@
                 e.preventDefault();
                 e.stopPropagation();
                 
-                if (!forcedModal.classList.contains('active') && !subscriptionForm.classList.contains('active')) {
+                // Show forced modal if it's not already shown
+                if (!forcedModal.classList.contains('active')) {
                     showForcedSubscription();
                 }
                 
+                // Show message
                 alert('Subscription required to access this content.');
             });
         });
@@ -1427,10 +1059,64 @@
             });
         });
 
-        // Check if already subscribed
-        if (localStorage.getItem('vibeverse_subscribed') === 'true') {
-            window.location.href = 'content.html';
+        // Disable keyboard shortcuts that might bypass modal
+        document.addEventListener('keydown', (e) => {
+            // Prevent F12 (dev tools), Ctrl+Shift+I, Ctrl+U, etc.
+            if (
+                e.key === 'F12' ||
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
+                (e.ctrlKey && e.key === 'U') ||
+                e.key === 'Escape'
+            ) {
+                if (forcedModal.classList.contains('active')) {
+                    e.preventDefault();
+                    alert('Subscription required to access VibeVerse.');
+                }
+            }
+        });
+
+        // Prevent navigating away without subscribing
+        window.addEventListener('beforeunload', (e) => {
+            if (forcedModal.classList.contains('active')) {
+                e.preventDefault();
+                e.returnValue = 'You must subscribe to access VibeVerse content. Are you sure you want to leave?';
+                return e.returnValue;
+            }
+        });
+
+        // Make all links require subscription
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showForcedSubscription();
+            });
+        });
+
+        // Check if user is already subscribed (from localStorage)
+        function checkSubscriptionStatus() {
+            const isSubscribed = localStorage.getItem('vibeverse_subscribed');
+            const subscriptionDate = localStorage.getItem('vibeverse_subscription_date');
+            
+            if (isSubscribed === 'true' && subscriptionDate) {
+                const subDate = new Date(subscriptionDate);
+                const now = new Date();
+                const daysSinceSubscription = Math.floor((now - subDate) / (1000 * 60 * 60 * 24));
+                
+                // Check if subscription is still valid (30 days)
+                if (daysSinceSubscription <= 30) {
+                    // Redirect to content page
+                    window.location.href = 'content.html';
+                } else {
+                    // Subscription expired
+                    localStorage.removeItem('vibeverse_subscribed');
+                    localStorage.removeItem('vibeverse_subscription_date');
+                    localStorage.removeItem('vibeverse_plan');
+                }
+            }
         }
+
+        // Check subscription status on page load
+        checkSubscriptionStatus();
     </script>
 </body>
 </html>
