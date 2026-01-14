@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeVerse | Exclusive Creator Content</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #0f0f23;
+            --secondary-bg: #1a1a2e;
+            --card-bg: #222244;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0d0;
+            --accent-pink: #ff2d95;
+            --accent-purple: #9146ff;
+            --accent-blue: #00a2ff;
+            --accent-gold: #ffd700;
+            --border-color: #333366;
+            --radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* BLUR OVERLAY */
+        .blur-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(15, 15, 35, 0.95);
+            z-index: 9998;
+            display: none;
+        }
+
+        .blur-overlay.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* FORCED SUBSCRIPTION MODAL */
+        .forced-subscription-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: var(--radius);
+            max-width: 500px;
+            width: 90%;
+            z-index: 9999;
+            border: 3px solid var(--accent-pink);
+            box-shadow: 0 0 50px rgba(255, 45, 149, 0.3);
+            display: none;
+            animation: popIn 0.5s ease;
+        }
+
+        .forced-subscription-modal.active {
+            display: block;
+        }
+
+        @keyframes popIn {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header i {
+            font-size: 4rem;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modal-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .features-list {
+            margin: 30px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .feature-item i {
+            color: var(--accent-pink);
+            font-size: 1.2rem;
+        }
+
+        .forced-subscribe-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .forced-subscribe-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 45, 149, 0.3);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-secondary);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: not-allowed;
+            opacity: 0.5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn::after {
+            content: "X";
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .forced-note {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(255, 45, 149, 0.1);
+            border-radius: 8px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .preloader-logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        .preloader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--accent-pink);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(26, 26, 46, 0.95);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: var(--text-primary);
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: rgba(255, 45, 149, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 60px;
+            background: linear-gradient(135deg, 
+                rgba(15, 15, 35, 0.9) 0%, 
+                rgba(26, 26, 46, 0.9) 100%),
+                url('https://images.unsplash.com/photo-1593305841991-05c297ba4575?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff, var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Creators Grid */
+        .creators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .creator-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            position: relative;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .creator-card:hover {
+            transform: none;
+            border-color: var(--border-color);
+            box-shadow: none;
+        }
+
+        .creator-avatar {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+            filter: blur(3px);
+        }
+
+        .creator-info {
+            padding: 20px;
+        }
+
+        .creator-name {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .creator-category {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .creator-stats {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        .subscribe-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 15px;
+        }
+
+        .subscribe-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        /* Content Preview Section */
+        .preview-section {
+            padding: 80px 0;
+            background: var(--secondary-bg);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .content-item {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .content-item:hover {
+            transform: none;
+            border-color: var(--border-color);
+        }
+
+        .content-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            position: relative;
+            filter: blur(4px);
+        }
+
+        .content-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            z-index: 2;
+        }
+
+        .locked-badge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 45, 149, 0.9);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 3;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .content-info {
+            padding: 20px;
+        }
+
+        .content-creator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .creator-avatar-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            filter: blur(2px);
+        }
+
+        /* Premium Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: var(--transition);
+            opacity: 0.7;
+        }
+
+        .feature-card:hover {
+            border-color: var(--border-color);
+            transform: none;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Pricing Section */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .pricing-card {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: var(--radius);
+            border: 2px solid var(--border-color);
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            opacity: 0.7;
+        }
+
+        .pricing-card:hover {
+            border-color: var(--border-color);
+            transform: none;
+        }
+
+        .pricing-card.popular {
+            border-color: var(--accent-pink);
+            background: linear-gradient(135deg, rgba(255, 45, 149, 0.1), rgba(145, 70, 255, 0.1));
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-pink);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .price {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--card-bg);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 120px 0 40px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .creators-grid,
+            .content-grid,
+            .features-grid,
+            .pricing-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .forced-subscription-modal {
+                padding: 25px;
+            }
+
+            .modal-header h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-logo">VibeVerse</div>
+        <div class="preloader-spinner"></div>
+    </div>
+
+    <!-- Blur Overlay -->
+    <div class="blur-overlay" id="blurOverlay"></div>
+
+    <!-- Forced Subscription Modal -->
+    <div class="forced-subscription-modal" id="forcedSubscriptionModal">
+        <div class="close-btn" title="Subscription required to close"></div>
+        
+        <div class="modal-header">
+            <i class="fas fa-lock"></i>
+            <h2>ACCESS REQUIRED</h2>
+            <p>Subscribe to unlock all content</p>
+        </div>
+
+        <div class="features-list">
+            <div class="feature-item">
+                <i class="fas fa-video"></i>
+                <div>
+                    <strong>Exclusive Videos</strong>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                        Unlock premium videos from top creators
+                    </p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <i class="fas fa-photo-video"></i>
+                <div>
+                    <strong>Private Photos</strong>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                        Access exclusive photo collections
+                    </p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <i class="fas fa-comments"></i>
+                <div>
+                    <strong>Direct Messages</strong>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">
+                        Chat directly with creators
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <p style="text-align: center; color: var(--text-secondary); margin: 20px 0;">
+            You must subscribe to access any content on VibeVerse
+        </p>
+
+        <button class="forced-subscribe-btn" id="forcedSubscribeBtn">
+            <i class="fas fa-lock-open"></i>
+            SUBSCRIBE NOW TO CONTINUE
+        </button>
+
+        <div class="forced-note">
+            <i class="fas fa-exclamation-circle"></i>
+            This message cannot be closed without subscribing
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gem"></i>
+                <span>VibeVerse</span>
+            </a>
+            
+            <a href="#" class="nav-link" id="subscribeNavBtn">
+                <i class="fas fa-lock-open"></i> Subscribe
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Exclusive Creator Content</h1>
+                <p class="hero-subtitle">
+                    Subscribe to access premium videos, photos, and exclusive content from top creators.
+                </p>
+                
+                <!-- Featured Creators -->
+                <div class="creators-grid">
+                    <div class="creator-card">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b786d4b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                             alt="Creator" class="creator-avatar">
+                        <div class="creator-info">
+                            <h3 class="creator-name">Sophia Rose</h3>
+                            <span class="creator-category">Fitness & Lifestyle</span>
+                            <div class="creator-stats">
+                                <span><i class="fas fa-users"></i> 24.5K</span>
+                                <span><i class="fas fa-video"></i> 342</span>
+                                <span><i class="fas fa-heart"></i> 18.7K</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="creator-card">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                             alt="Creator" class="creator-avatar">
+                        <div class="creator-info">
+                            <h3 class="creator-name">Alex Morgan</h3>
+                            <span class="creator-category">Music Producer</span>
+                            <div class="creator-stats">
+                                <span><i class="fas fa-users"></i> 18.2K</span>
+                                <span><i class="fas fa-video"></i> 189</span>
+                                <span><i class="fas fa-heart"></i> 12.4K</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="creator-card">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                             alt="Creator" class="creator-avatar">
+                        <div class="creator-info">
+                            <h3 class="creator-name">Luna Sky</h3>
+                            <span class="creator-category">Cosplay Artist</span>
+                            <div class="creator-stats">
+                                <span><i class="fas fa-users"></i> 42.8K</span>
+                                <span><i class="fas fa-video"></i> 567</span>
+                                <span><i class="fas fa-heart"></i> 38.9K</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Preview Section -->
+    <section class="preview-section">
+        <div class="container">
+            <h2 class="section-title">Exclusive Content</h2>
+            <p class="section-subtitle">
+                Subscribe to unlock full videos, photos, and direct messaging with creators.
+            </p>
+            
+            <div class="content-grid">
+                <!-- Content Item 1 (Locked) -->
+                <div class="content-item">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                             alt="Preview" class="content-thumbnail">
+                        <div class="content-overlay">
+                            <div class="locked-badge">
+                                <i class="fas fa-lock"></i> SUBSCRIBE TO UNLOCK
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-info">
+                        <div class="content-creator">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b786d4b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                 alt="Creator" class="creator-avatar-small">
+                            <div>
+                                <h4 style="color: var(--text-secondary);">Sophia Rose</h4>
+                                <span style="color: var(--text-secondary); font-size: 0.9rem; opacity: 0.6;">Premium Content</span>
+                            </div>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-top: 10px; opacity: 0.6;">
+                            [Content locked - Subscribe to view]
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Content Item 2 (Locked) -->
+                <div class="content-item">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                             alt="Preview" class="content-thumbnail">
+                        <div class="content-overlay">
+                            <div class="locked-badge">
+                                <i class="fas fa-lock"></i> SUBSCRIBE TO UNLOCK
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-info">
+                        <div class="content-creator">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                 alt="Creator" class="creator-avatar-small">
+                            <div>
+                                <h4 style="color: var(--text-secondary);">Alex Morgan</h4>
+                                <span style="color: var(--text-secondary); font-size: 0.9rem; opacity: 0.6;">Premium Content</span>
+                            </div>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-top: 10px; opacity: 0.6;">
+                            [Content locked - Subscribe to view]
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Content Item 3 (Locked) -->
+                <div class="content-item">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                             alt="Preview" class="content-thumbnail">
+                        <div class="content-overlay">
+                            <div class="locked-badge">
+                                <i class="fas fa-lock"></i> SUBSCRIBE TO UNLOCK
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-info">
+                        <div class="content-creator">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                 alt="Creator" class="creator-avatar-small">
+                            <div>
+                                <h4 style="color: var(--text-secondary);">Luna Sky</h4>
+                                <span style="color: var(--text-secondary); font-size: 0.9rem; opacity: 0.6;">Premium Content</span>
+                            </div>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-top: 10px; opacity: 0.6;">
+                            [Content locked - Subscribe to view]
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Features -->
+    <section style="padding: 80px 0; background: var(--primary-bg);">
+        <div class="container">
+            <h2 class="section-title">Premium Benefits</h2>
+            <p class="section-subtitle">
+                Unlock exclusive features when you subscribe
+            </p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 style="margin-bottom: 15px; color: var(--text-secondary);">Exclusive Videos</h3>
+                    <p style="color: var(--text-secondary); opacity: 0.6;">
+                        [Subscribe to view content]
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 style="margin-bottom: 15px; color: var(--text-secondary);">Direct Messages</h3>
+                    <p style="color: var(--text-secondary); opacity: 0.6;">
+                        [Subscribe to chat with creators]
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 style="margin-bottom: 15px; color: var(--text-secondary);">Early Access</h3>
+                    <p style="color: var(--text-secondary); opacity: 0.6;">
+                        [Subscribe for early content]
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section style="padding: 100px 0; background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg)); text-align: center;">
+        <div class="container">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px; color: var(--text-secondary);">Subscribe to Access Content</h2>
+            <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 30px; opacity: 0.7;">
+                All content requires a subscription. No previews available without subscription.
+            </p>
+            
+            <button class="forced-subscribe-btn" id="ctaSubscribeBtn" style="max-width: 400px; margin: 0 auto;">
+                <i class="fas fa-lock-open"></i> SUBSCRIBE TO UNLOCK ALL CONTENT
+            </button>
+            
+            <div style="margin-top: 40px; color: var(--text-secondary); font-size: 0.9rem; opacity: 0.6;">
+                <p><i class="fas fa-lock"></i> All content locked without subscription</p>
+                <p><i class="fas fa-ban"></i> No free previews available</p>
+                <p><i class="fas fa-check-circle"></i> Cancel anytime after subscription</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3 style="color: var(--text-primary); margin-bottom: 20px;">VibeVerse</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                        Premium content platform - Subscription required for access.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 style="color: var(--text-primary); margin-bottom: 20px;">Information</h3>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="#" style="color: var(--text-secondary); text-decoration: none;">Subscription Required</a>
+                        <a href="#" style="color: var(--text-secondary); text-decoration: none;">No Free Content</a>
+                        <a href="#" style="color: var(--text-secondary); text-decoration: none;">Members Only</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; padding-top: 30px; border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+                <p>© 2024 VibeVerse. Subscription required for all content access.</p>
+                <p style="margin-top: 10px; font-size: 0.8rem;">
+                    Must be 18+ to subscribe. All content locked behind paywall.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Hide preloader and show forced subscription modal
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                if (preloader) {
+                    preloader.style.opacity = '0';
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                        
+                        // Show forced subscription modal after preloader
+                        setTimeout(() => {
+                            showForcedSubscription();
+                        }, 500);
+                    }, 500);
+                }
+            }, 1000);
+        });
+
+        // Forced subscription modal elements
+        const blurOverlay = document.getElementById('blurOverlay');
+        const forcedModal = document.getElementById('forcedSubscriptionModal');
+        const forcedSubscribeBtn = document.getElementById('forcedSubscribeBtn');
+        const closeBtn = document.querySelector('.close-btn');
+        const subscribeNavBtn = document.getElementById('subscribeNavBtn');
+        const ctaSubscribeBtn = document.getElementById('ctaSubscribeBtn');
+
+        // Show forced subscription modal
+        function showForcedSubscription() {
+            blurOverlay.classList.add('active');
+            forcedModal.classList.add('active');
+            
+            // Disable scrolling
+            document.body.style.overflow = 'hidden';
+            
+            // Prevent any clicks on background
+            blurOverlay.style.pointerEvents = 'auto';
+        }
+
+        // Handle subscription button click
+        function handleSubscribeClick() {
+            // Redirect to payment page
+            window.location.href = 'subscribe.html';
+        }
+
+        // Add event listeners to all subscribe buttons
+        if (forcedSubscribeBtn) {
+            forcedSubscribeBtn.addEventListener('click', handleSubscribeClick);
+        }
+        
+        if (subscribeNavBtn) {
+            subscribeNavBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                handleSubscribeClick();
+            });
+        }
+        
+        if (ctaSubscribeBtn) {
+            ctaSubscribeBtn.addEventListener('click', handleSubscribeClick);
+        }
+
+        // Disable close button functionality
+        if (closeBtn) {
+            closeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Show message that subscription is required
+                alert('You must subscribe to access VibeVerse content.');
+            });
+        }
+
+        // Prevent any interaction with locked content
+        document.querySelectorAll('.creator-card, .content-item, .feature-card, .pricing-card').forEach(element => {
+            element.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Show forced modal if it's not already shown
+                if (!forcedModal.classList.contains('active')) {
+                    showForcedSubscription();
+                }
+                
+                // Show message
+                alert('Subscription required to access this content.');
+            });
+        });
+
+        // Prevent right-click on images
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                alert('Subscription required to view content.');
+            });
+        });
+
+        // Disable keyboard shortcuts that might bypass modal
+        document.addEventListener('keydown', (e) => {
+            // Prevent F12 (dev tools), Ctrl+Shift+I, Ctrl+U, etc.
+            if (
+                e.key === 'F12' ||
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
+                (e.ctrlKey && e.key === 'U') ||
+                e.key === 'Escape'
+            ) {
+                if (forcedModal.classList.contains('active')) {
+                    e.preventDefault();
+                    alert('Subscription required to access VibeVerse.');
+                }
+            }
+        });
+
+        // Prevent navigating away without subscribing
+        window.addEventListener('beforeunload', (e) => {
+            if (forcedModal.classList.contains('active')) {
+                e.preventDefault();
+                e.returnValue = 'You must subscribe to access VibeVerse content. Are you sure you want to leave?';
+                return e.returnValue;
+            }
+        });
+
+        // Make all links require subscription
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showForcedSubscription();
+            });
+        });
+    </script>
+</body>
+</html>
