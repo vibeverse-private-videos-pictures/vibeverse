@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusive Content | VibeVerse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset & Base - VibeVerse Theme */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #0f0f23;
+            --secondary-bg: #1a1a2e;
+            --card-bg: #222244;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0d0;
+            --accent-pink: #ff2d95;
+            --accent-purple: #9146ff;
+            --accent-blue: #00a2ff;
+            --accent-gold: #ffd700;
+            --border-color: #333366;
+            --success-green: #00ff88;
+            --radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Subscription Check Overlay */
+        .subscription-check {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .subscription-check.hidden {
+            display: none;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(26, 26, 46, 0.95);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: var(--text-primary);
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-secondary);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 60px;
+            background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* Video Categories */
+        .categories {
+            padding: 20px 0;
+            background: var(--secondary-bg);
+        }
+
+        .categories-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .category-btn {
+            padding: 10px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Video Grid */
+        .videos-section {
+            padding: 60px 0;
+            background: var(--primary-bg);
+        }
+
+        .videos-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--text-primary);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .video-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-pink);
+            box-shadow: 0 10px 30px rgba(255, 45, 149, 0.2);
+        }
+
+        .video-thumbnail-container {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .video-card:hover .video-thumbnail {
+            transform: scale(1.05);
+        }
+
+        .play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .video-card:hover .play-btn {
+            opacity: 1;
+        }
+
+        .video-info {
+            padding: 20px;
+        }
+
+        .video-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .video-creator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .creator-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .creator-name {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .video-stats {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Video Player Modal */
+        .video-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 15, 35, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .video-modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .video-player-container {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px;
+            max-width: 900px;
+            width: 100%;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .video-player {
+            width: 100%;
+            height: 500px;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .video-info-modal {
+            padding: 20px 0;
+        }
+
+        .video-title-modal {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .video-description {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .video-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+        }
+
+        /* Featured Section */
+        .featured-section {
+            padding: 60px 0;
+            background: var(--secondary-bg);
+        }
+
+        .featured-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .featured-video {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .featured-thumbnail {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .featured-info {
+            padding: 40px;
+        }
+
+        .featured-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .featured-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .featured-description {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+
+        .watch-featured-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .watch-featured-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 45, 149, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--card-bg);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-pink);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .featured-video {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-thumbnail {
+                height: 300px;
+            }
+            
+            .video-player {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .video-player {
+                height: 300px;
+            }
+            
+            .featured-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 100px 0 40px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .video-player {
+                height: 250px;
+            }
+            
+            .featured-info {
+                padding: 25px;
+            }
+            
+            .featured-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Subscription Check -->
+    <div class="subscription-check" id="subscriptionCheck">
+        <div style="text-align: center;">
+            <div style="font-size: 4rem; color: var(--accent-pink); margin-bottom: 20px;">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h2 style="font-size: 2rem; margin-bottom: 20px; color: var(--text-primary);">Checking Subscription...</h2>
+            <div class="preloader-spinner" style="width: 50px; height: 50px; border: 3px solid var(--border-color); border-top: 3px solid var(--accent-pink); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+            <p style="color: var(--text-secondary); max-width: 400px;">Verifying your subscription status...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gem"></i>
+                <span>VibeVerse</span>
+            </a>
+            
+            <div class="user-info" id="userInfo">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div>
+                    <div id="userName">Loading...</div>
+                    <div style="font-size: 0.8rem; opacity: 0.7;" id="userStatus">Checking...</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>Exclusive Content</h1>
+            <p class="hero-subtitle">
+                Welcome to your premium VibeVerse experience. Browse and watch exclusive videos from your favorite creators.
+            </p>
+        </div>
+    </section>
+
+    <!-- Video Categories -->
+    <section class="categories">
+        <div class="categories-container">
+            <button class="category-btn active" data-category="all">All Videos</button>
+            <button class="category-btn" data-category="featured">Featured</button>
+            <button class="category-btn" data-category="recent">Recent</button>
+            <button class="category-btn" data-category="popular">Most Popular</button>
+            <button class="category-btn" data-category="exclusive">Exclusive</button>
+            <button class="category-btn" data-category="behind-scenes">Behind the Scenes</button>
+        </div>
+    </section>
+
+    <!-- Featured Video Section -->
+    <section class="featured-section">
+        <div class="featured-container">
+            <h2 class="section-title">Featured Video</h2>
+            <div class="featured-video">
+                <img src="https://images.unsplash.com/photo-1611605698323-b1e99cfd37ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                     alt="Featured Video" class="featured-thumbnail">
+                <div class="featured-info">
+                    <span class="featured-badge">EXCLUSIVE PREMIERE</span>
+                    <h3 class="featured-title">The Ultimate Experience</h3>
+                    <p class="featured-description">
+                        Get ready for an exclusive behind-the-scenes look at our most requested content. 
+                        This premium video features never-before-seen footage and exclusive interviews 
+                        with your favorite creators.
+                    </p>
+                    <button class="watch-featured-btn" id="watchFeaturedBtn">
+                        <i class="fas fa-play"></i>
+                        Watch Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Videos Section -->
+    <section class="videos-section">
+        <div class="videos-container">
+            <h2 class="section-title">Latest Videos</h2>
+            <div class="video-grid" id="videoGrid">
+                <!-- Video 1 -->
+                <div class="video-card" data-category="featured exclusive" data-video="video1">
+                    <div class="video-thumbnail-container">
+                        <img src="https://images.unsplash.com/photo-1611605698335-8b1569810431?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Video Thumbnail" class="video-thumbnail">
+                        <div class="play-btn">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h4 class="video-title">Midnight Session</h4>
+                        <div class="video-creator">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b786d4b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                 alt="Creator" class="creator-avatar">
+                            <span class="creator-name">Sophia Rose</span>
+                        </div>
+                        <div class="video-stats">
+                            <span><i class="fas fa-eye"></i> 245K views</span>
+                            <span><i class="fas fa-clock"></i> 15:42</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="video-card" data-category="recent" data-video="video2">
+                    <div class="video-thumbnail-container">
+                        <img src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Video Thumbnail" class="video-thumbnail">
+                        <div class="play-btn">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h4 class="video-title">Studio Session</h4>
+                        <div class="video-creator">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                 alt="Creator" class="creator-avatar">
+                            <span class="creator-name">Alex Morgan</span>
+                        </div>
+                        <div class="video-stats">
+                            <span><i class="fas fa-eye"></i> 189K views</span>
+                            <span><i class="fas fa-clock"></i> 22:18</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="video-card" data-category="popular" data-video="video3">
+                    <div class="video-thumbnail-container">
+                        <img src="https://images.unsplash.com/photo-1611605698323-b1e99cfd37ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Video Thumbnail" class="video-thumbnail">
+                        <div class="play-btn">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h4 class="video-title">Private Collection</h4>
+                        <div class="video-creator">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                 alt="Creator" class="creator-avatar">
+                            <span class="creator-name">Luna Sky</span>
+                        </div>
+                        <div class="video-stats">
+                            <span><i class="fas fa-eye"></i> 342K views</span>
+                            <span><i class="fas fa-clock"></i> 18:35</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video 4 -->
+                <div class="video-card" data-category="exclusive" data-video="video4">
+                    <div class="video-thumbnail-container">
+                        <img src="https://images.unsplash.com/photo-1542744095-291d1f67b221?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Video Thumbnail" class="video-thumbnail">
+                        <div class="play-btn">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h4 class="video-title">Behind The Scenes</h4>
+                        <div class="video-creator">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b786d4b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                 alt="Creator" class="creator-avatar">
+                            <span class="creator-name">Sophia Rose</span>
+                        </div>
+                        <div class="video-stats">
+                            <span><i class="fas fa-eye"></i> 156K views</span>
+                            <span><i class="fas fa-clock"></i> 25:10</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video 5 -->
+                <div class="video-card" data-category="behind-scenes" data-video="video5">
+                    <div class="video-thumbnail-container">
+                        <img src="https://images.unsplash.com/photo-1611605698323-b1e99cfd37ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Video Thumbnail" class="video-thumbnail">
+                        <div class="play-btn">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h4 class="video-title">Making Of Special</h4>
+                        <div class="video-creator">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                 alt="Creator" class="creator-avatar">
+                            <span class="creator-name">Alex Morgan</span>
+                        </div>
+                        <div class="video-stats">
+                            <span><i class="fas fa-eye"></i> 98K views</span>
+                            <span><i class="fas fa-clock"></i> 32:45</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video 6 -->
+                <div class="video-card" data-category="recent" data-video="video6">
+                    <div class="video-thumbnail-container">
+                        <img src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Video Thumbnail" class="video-thumbnail">
+                        <div class="play-btn">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h4 class="video-title">New Collection</h4>
+                        <div class="video-creator">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                 alt="Creator" class="creator-avatar">
+                            <span class="creator-name">Luna Sky</span>
+                        </div>
+                        <div class="video-stats">
+                            <span><i class="fas fa-eye"></i> 203K views</span>
+                            <span><i class="fas fa-clock"></i> 19:22</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Player Modal -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-player-container">
+            <button class="close-modal" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="video-player" id="videoPlayer">
+                <!-- Video will be loaded here -->
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #000; color: white;">
+                    <div style="text-align: center;">
+                        <i class="fas fa-play-circle" style="font-size: 4rem; margin-bottom: 20px;"></i>
+                        <p>Video player will load here</p>
+                        <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 10px;">You can replace this with your video embed code</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="video-info-modal">
+                <h3 class="video-title-modal" id="modalVideoTitle">Video Title</h3>
+                <p class="video-description" id="modalVideoDescription">
+                    This is where the video description will appear. You can add details about the video, 
+                    creator information, and any other relevant details here.
+                </p>
+                <div class="video-actions">
+                    <button class="action-btn">
+                        <i class="fas fa-thumbs-up"></i>
+                        Like
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-share"></i>
+                        Share
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-download"></i>
+                        Download
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>VibeVerse</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                        Premium content platform for exclusive creator content.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <div class="footer-links">
+                        <a href="index.html">Home</a>
+                        <a href="#">Browse Creators</a>
+                        <a href="#">Latest Videos</a>
+                        <a href="#">Exclusive Content</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Account</h3>
+                    <div class="footer-links">
+                        <a href="#">My Profile</a>
+                        <a href="#">Subscription</a>
+                        <a href="#">Settings</a>
+                        <a href="#">Help Center</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <div class="footer-links">
+                        <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+                        <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                        <a href="#"><i class="fab fa-telegram"></i> Telegram</a>
+                        <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2024 VibeVerse. All rights reserved. Premium subscription required for access.</p>
+                <p style="margin-top: 10px; font-size: 0.8rem;">
+                    Must be 18+ to access content. All videos are exclusive to VibeVerse subscribers.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Check subscription status
+        function checkSubscriptionStatus() {
+            const isSubscribed = localStorage.getItem('vibeverse_subscribed');
+            const subscriptionDate = localStorage.getItem('vibeverse_subscription_date');
+            const userEmail = localStorage.getItem('vibeverse_email');
+            const userName = localStorage.getItem('vibeverse_user_name');
+            
+            if (isSubscribed === 'true' && subscriptionDate) {
+                const subDate = new Date(subscriptionDate);
+                const now = new Date();
+                const daysSinceSubscription = Math.floor((now - subDate) / (1000 * 60 * 60 * 24));
+                
+                // Check if subscription is still valid (30 days)
+                if (daysSinceSubscription <= 30) {
+                    return { 
+                        subscribed: true, 
+                        userEmail, 
+                        userName, 
+                        daysLeft: 30 - daysSinceSubscription,
+                        valid: true 
+                    };
+                } else {
+                    // Subscription expired
+                    localStorage.removeItem('vibeverse_subscribed');
+                    localStorage.removeItem('vibeverse_subscription_date');
+                    localStorage.removeItem('vibeverse_email');
+                    localStorage.removeItem('vibeverse_user_name');
+                    localStorage.removeItem('vibeverse_payment_success');
+                    localStorage.removeItem('vibeverse_payment_amount');
+                    localStorage.removeItem('vibeverse_payment_date');
+                    return { subscribed: false, valid: false };
+                }
+            }
+            return { subscribed: false, valid: false };
+        }
+
+        // Initialize page
+        function initializePage() {
+            const subscriptionStatus = checkSubscriptionStatus();
+            
+            if (subscriptionStatus.subscribed && subscriptionStatus.valid) {
+                // User is subscribed - show content
+                document.getElementById('subscriptionCheck').classList.add('hidden');
+                
+                // Update user info
+                if (subscriptionStatus.userName) {
+                    document.getElementById('userName').textContent = subscriptionStatus.userName;
+                    document.getElementById('userAvatar').textContent = subscriptionStatus.userName.charAt(0).toUpperCase();
+                    document.getElementById('userStatus').textContent = `Subscribed · ${subscriptionStatus.daysLeft} days left`;
+                }
+                
+                // Initialize video functionality
+                initializeVideos();
+                
+                console.log('✅ User subscribed, showing content');
+                
+            } else {
+                // User is not subscribed - redirect to index.html
+                console.log('❌ User not subscribed, redirecting to index.html');
+                setTimeout(() => {
+                    alert('Subscription required to access exclusive content. Redirecting to home page...');
+                    window.location.href = 'index.html';
+                }, 2000);
+            }
+        }
+
+        // Initialize video functionality
+        function initializeVideos() {
+            // Category filtering
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const videoCards = document.querySelectorAll('.video-card');
+            
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    btn.classList.add('active');
+                    
+                    const category = btn.dataset.category;
+                    
+                    // Filter videos
+                    videoCards.forEach(card => {
+                        if (category === 'all' || card.dataset.category.includes(category)) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Video modal functionality
+            const videoModal = document.getElementById('videoModal');
+            const closeModal = document.getElementById('closeModal');
+            const videoCardsAll = document.querySelectorAll('.video-card');
+            const watchFeaturedBtn = document.getElementById('watchFeaturedBtn');
+            
+            // Function to open video modal
+            function openVideoModal(videoId, title, description) {
+                document.getElementById('modalVideoTitle').textContent = title;
+                document.getElementById('modalVideoDescription').textContent = description;
+                videoModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // Here you would load your actual video
+                // Example: document.getElementById('videoPlayer').innerHTML = `<video controls src="your-video-url.mp4"></video>`;
+                
+                console.log(`Playing video: ${videoId} - ${title}`);
+            }
+            
+            // Add click events to video cards
+            videoCardsAll.forEach(card => {
+                card.addEventListener('click', () => {
+                    const videoId = card.dataset.video;
+                    const title = card.querySelector('.video-title').textContent;
+                    const creator = card.querySelector('.creator-name').textContent;
+                    const description = `Exclusive content from ${creator}. This is premium content available only to VibeVerse subscribers.`;
+                    
+                    openVideoModal(videoId, title, description);
+                });
+            });
+            
+            // Featured video button
+            if (watchFeaturedBtn) {
+                watchFeaturedBtn.addEventListener('click', () => {
+                    openVideoModal('featured', 'The Ultimate Experience', 
+                        'Get ready for an exclusive behind-the-scenes look at our most requested content. This premium video features never-before-seen footage and exclusive interviews with your favorite creators.');
+                });
+            }
+            
+            // Close modal
+            closeModal.addEventListener('click', () => {
+                videoModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Close modal when clicking outside
+            videoModal.addEventListener('click', (e) => {
+                if (e.target === videoModal) {
+                    videoModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && videoModal.classList.contains('active')) {
+                    videoModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+
+        // Check for payment success
+        function checkForPaymentSuccess() {
+            const paymentSuccess = localStorage.getItem('vibeverse_payment_success');
+            const paymentAmount = localStorage.getItem('vibeverse_payment_amount');
+            
+            if (paymentSuccess === 'true' && paymentAmount) {
+                // Clear the payment success flag
+                localStorage.removeItem('vibeverse_payment_success');
+                
+                // Show success message
+                setTimeout(() => {
+                    alert(`🎉 Welcome to VibeVerse!\nYour payment of $${paymentAmount} was successful.\nEnjoy unlimited access to exclusive content!`);
+                }, 1000);
+            }
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🔍 Checking subscription for content.html...');
+            checkForPaymentSuccess();
+            initializePage();
+        });
+
+        // Add CSS for spinner animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
